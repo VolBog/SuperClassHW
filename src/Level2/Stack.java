@@ -1,43 +1,47 @@
 package Level2;
 
-public class Stack {
-    private Object[] objects;
+import java.util.Arrays;
 
+public class Stack {
+    private Object[] objects = new Object[10];
+    private int index = 0;
+
+    public Stack() {
+    }
 
     public Stack(int number) {
         objects = new Object[number];
     }
 
     public void push(Object obj) {
-        for (int i = objects.length - 1; i >= 0; i--) {
-            if (objects[i] == null) {
-                objects[i] = obj;
-                break;
-            }
+        objects[index] = obj;
+        index++;
+        if(index != objects.length){
+            expand();
         }
     }
 
     public Object pop() {
-        Object obj = null;
-        for (int i = 0; i < objects.length; i++) {
-            if (objects[i] != null) {
-                obj = objects[i];
-                objects[i] = null;
-                break;
-            }
+        if(index == 0) {
+            return null;
+        }
+        Object obj = objects[index - 1];
+        objects[index - 1] = null;
+        if(index != 0) {
+            index--;
         }
         return obj;
     }
 
     public Object peek() {
-        Object obj = null;
-        for (int i = 0; i < objects.length; i++) {
-            if (objects[i] != null) {
-                obj = objects[i];
-                break;
-            }
+        if(index == 0) {
+            return null;
         }
-        return obj;
+        return objects[index - 1];
+    }
+
+    public void expand(){
+        objects = Arrays.copyOf(objects, objects.length*2);
     }
 
 }
